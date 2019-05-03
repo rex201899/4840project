@@ -60,15 +60,14 @@ int main()
 
       if (py < 1) { py = 1;}
       else if (py > 0 && py < 480) { py = py + numy; }
-      else if (py > 479) { px = 479;}
+      else if (py > 479) { py = 479;}
       else {py = 240;}
 
-      printf("position of x, y are: %d %d\n",px,py);
-      sprintf(keystate, "%02x %02x %02x", packet.modifiers, packet.pos_x,
-	      packet.pos_y);
+      int modifierss = packet.modifiers
+      printf("position of x, y are: %d %d; left click is %d\n",px,py,modifierss);
+      // sprintf(keystate, "%02x %02x %02x", packet.modifiers, packet.pos_x,
+	     //  packet.pos_y);
       // printf("%s\n", keystate);
-      if (packet.pos_y == 0x29) { /* ESC pressed? */
-	       break;
       }
     }
   }
