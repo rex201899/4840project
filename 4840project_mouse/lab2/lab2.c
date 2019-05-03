@@ -42,18 +42,6 @@ int main()
 			      &transferred, 0);
     // printf("%d\n", flg1);
 
-    if (packet.pos_x > 0x88) {
-        num = -(0xFF - packet.pos_x + 1);
-    }
-    else {
-        num = packet.pos_x;
-    }
-    int x = 3;
-    printf("x is %d\n",x);
-    x = x + num;
-
-
-
     if (transferred == sizeof(packet)) {
       if (packet.pos_x > 0x88) {
         numx = -(0xFF - packet.pos_x + 1);
