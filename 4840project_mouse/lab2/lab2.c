@@ -63,7 +63,7 @@ int main()
       else if (py > 479) { py = 479;}
       else {py = 240;}
 
-      int modifierss = packet.modifiers
+      int modifierss = packet.modifiers;
       printf("position of x, y are: %d %d; left click is %d\n",px,py,modifierss);
       // sprintf(keystate, "%02x %02x %02x", packet.modifiers, packet.pos_x,
 	     //  packet.pos_y);
