@@ -63,11 +63,10 @@ int main()
       else if (py > 479) { py = 479;}
       else {py = 240;}
 
-      modifierss = packet.modifiers;
+      // modifierss = packet.modifiers;
       printf("position of x, y are: %d %d; left click is %d\n",px,py,modifierss);
       }
     }
-  }
 
   return 0;
 }
