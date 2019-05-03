@@ -19,8 +19,6 @@ uint8_t endpoint_address;
 
 int main()
 {
-  int err;
-  int flg1;
   // struct sockaddr_in serv_addr;
 
   struct usb_mouse_packet packet;
@@ -36,7 +34,7 @@ int main()
 
   for (;;) 
   {
-    flg1 = libusb_interrupt_transfer(mouse, endpoint_address,
+    libusb_interrupt_transfer(mouse, endpoint_address,
 			      (unsigned char *) &packet, sizeof(packet),
 			      &transferred, 0);
     // printf("%d\n", flg1);
