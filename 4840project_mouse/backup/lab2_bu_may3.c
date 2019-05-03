@@ -20,9 +20,6 @@ uint8_t endpoint_address;
 int main()
 {
   // struct sockaddr_in serv_addr;
-  int px = 320;
-  int py = 240;
-  int numx, numy;
 
   struct usb_mouse_packet packet;
   int transferred;
@@ -41,40 +38,12 @@ int main()
 			      (unsigned char *) &packet, sizeof(packet),
 			      &transferred, 0);
     // printf("%d\n", flg1);
-
-    if (packet.pos_x > 0x88) {
-        num = -(0xFF - packet.pos_x + 1);
-    }
-    else {
-        num = packet.pos_x;
-    }
-    int x = 3;
-    printf("x is %d\n",x);
-    x = x + num;
-
-
+    
 
     if (transferred == sizeof(packet)) {
-      if (packet.pos_x > 0x88) {
-        numx = -(0xFF - packet.pos_x + 1);
-      }
-      else { numx = packet.pos_x;}
-      if (px > 0 && px < 640) {
-        px = px + numx;
-      }
-
-      if (packet.pos_y > 0x88) {
-        numy = -(0xFF - packet.pos_y + 1);
-      }
-      else { numy = packet.pos_y;}
-      if (py > 0 && py < 480) {
-        py = py + numy;
-      }
-
-      printf("position of x, y are: %d %d\n",px,py);
       sprintf(keystate, "%02x %02x %02x", packet.modifiers, packet.pos_x,
 	      packet.pos_y);
-      // printf("%s\n", keystate);
+      printf("%s\n", keystate);
       if (packet.pos_y == 0x29) { /* ESC pressed? */
 	       break;
       }
