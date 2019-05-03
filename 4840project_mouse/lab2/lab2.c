@@ -20,7 +20,7 @@ uint8_t endpoint_address;
 int main()
 {
   int err;
-  // int flg1;
+  int flg1;
   // struct sockaddr_in serv_addr;
 
   struct usb_mouse_packet packet;
