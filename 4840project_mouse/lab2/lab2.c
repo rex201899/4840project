@@ -53,15 +53,15 @@ int main()
       }
       else { numy = packet.pos_y;}
 
-      if (px < 1) { px = 1}
+      if (px < 1) { px = 1;}
       else if (px > 0 && px < 640) { px = px + numx; }
-      else if (px > 639) { px = 639}
-      else {px = 320}
+      else if (px > 639) { px = 639;}
+      else {px = 320;}
 
-      if (py < 1) { py = 1}
+      if (py < 1) { py = 1;}
       else if (py > 0 && py < 480) { py = py + numy; }
-      else if (py > 479) { px = 479}
-      else {py = 240}
+      else if (py > 479) { px = 479;}
+      else {py = 240;}
 
       printf("position of x, y are: %d %d\n",px,py);
       sprintf(keystate, "%02x %02x %02x", packet.modifiers, packet.pos_x,
