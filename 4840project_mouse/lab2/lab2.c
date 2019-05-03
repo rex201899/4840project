@@ -23,10 +23,10 @@ int main()
   int px = 320;
   int py = 240;
   int numx, numy;
-  int modifierss;
+  int modifierss = 0;
   struct usb_mouse_packet packet;
   int transferred;
-  char keystate[12];
+  // char keystate[12];
 
   /* Open the mouse */
   if ( (mouse = openmouse(&endpoint_address)) == NULL ) {
@@ -63,10 +63,9 @@ int main()
       else if (py > 479) { py = 479;}
       else {py = 240;}
 
-      // modifierss = packet.modifiers;
+      modifierss = packet.modifiers;
       printf("position of x, y are: %d %d; left click is %d\n",px,py,modifierss);
       }
     }
-
   return 0;
 }
