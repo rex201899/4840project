@@ -1,9 +1,8 @@
 CFLAGS = -Wall
 
-OBJECTS = lab2.o fbputchar.o usbmouse.o
+OBJECTS = lab2.o usbmouse.o
 
 TARFILES = Makefile lab2.c \
-	fbputchar.h fbputchar.c \
 	usbmouse.h usbmouse.c \
 	chat_server.py
 
@@ -17,8 +16,7 @@ lab2.tar.gz : $(TARFILES)
 	tar zcf lab2.tar.gz lab2
 	rm -rf lab2
 
-lab2.o : lab2.c fbputchar.h usbmouse.h
-fbputchar.o : fbputchar.c fbputchar.h
+lab2.o : lab2.c usbmouse.h
 usbmouse.o : usbmouse.c usbmouse.h
 
 .PHONY : clean
