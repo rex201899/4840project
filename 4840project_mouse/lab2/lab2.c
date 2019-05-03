@@ -19,7 +19,8 @@
  */
 /* micro36.ee.columbia.edu */
 // #define SERVER_HOST "128.59.148.182"
-#define SERVER_HOST "160.39.249.225"
+// #define SERVER_HOST "160.39.249.225"
+#define SERVER_HOST "160.39.248.109"
 #define SERVER_PORT 42000
 
 #define BUFFER_SIZE 128
@@ -43,7 +44,7 @@ void *network_thread_f(void *);
 int main()
 {
   int err, col;
-
+  int flg1;
   struct sockaddr_in serv_addr;
 
   struct usb_mouse_packet packet;
@@ -75,29 +76,32 @@ int main()
     exit(1);
   }
 
-  /* Get the server address */
-  memset(&serv_addr, 0, sizeof(serv_addr));
-  serv_addr.sin_family = AF_INET;
-  serv_addr.sin_port = htons(SERVER_PORT);
-  if ( inet_pton(AF_INET, SERVER_HOST, &serv_addr.sin_addr) <= 0) {
-    fprintf(stderr, "Error: Could not convert host IP \"%s\"\n", SERVER_HOST);
-    exit(1);
-  }
+  // /* Get the server address */
+  // memset(&serv_addr, 0, sizeof(serv_addr));
+  // serv_addr.sin_family = AF_INET;
+  // serv_addr.sin_port = htons(SERVER_PORT);
+  // if ( inet_pton(AF_INET, SERVER_HOST, &serv_addr.sin_addr) <= 0) {
+  //   fprintf(stderr, "Error: Could not convert host IP \"%s\"\n", SERVER_HOST);
+  //   exit(1);
+  // }
 
-  /* Connect the socket to the server */
-  if ( connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-    fprintf(stderr, "Error: connect() failed.  Is the server running?\n");
-    exit(1);
-  }
+  // /* Connect the socket to the server */
+  // if ( connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
+  //   fprintf(stderr, "Error: connect() failed.  Is the server running?\n");
+  //   exit(1);
+  // }
 
   /* Start the network thread */
   pthread_create(&network_thread, NULL, network_thread_f, NULL);
 
   /* Look for and handle keypresses */
   for (;;) {
-    libusb_interrupt_transfer(mouse, endpoint_address,
+    flg1 = libusb_interrupt_transfer(mouse, endpoint_address,
 			      (unsigned char *) &packet, sizeof(packet),
 			      &transferred, 0);
+    sprintf("libusb_interrupt_transfer is: ","%d\n", flg1);
+    sprintf("transferred is: ","%s", transferred,"sizeof packet is: ","%s\n",sizeof(packet));
+
     if (transferred == sizeof(packet)) {
       sprintf(keystate, "%02x %02x %02x", packet.modifiers, packet.pos_x,
 	      packet.pos_y);
