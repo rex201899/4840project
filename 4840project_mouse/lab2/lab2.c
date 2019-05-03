@@ -100,7 +100,7 @@ int main()
 			      (unsigned char *) &packet, sizeof(packet),
 			      &transferred, 0);
     sprintf("libusb_interrupt_transfer is: ","%d\n", flg1);
-    sprintf("transferred is: ","%s", transferred,"sizeof packet is: ","%s\n",sizeof(packet));
+    sprintf("transferred is: ","%d", transferred,"sizeof packet is: ","%d\n",sizeof(packet));
 
     if (transferred == sizeof(packet)) {
       sprintf(keystate, "%02x %02x %02x", packet.modifiers, packet.pos_x,
