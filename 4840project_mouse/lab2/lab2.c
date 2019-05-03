@@ -20,8 +20,8 @@
 /* micro36.ee.columbia.edu */
 // #define SERVER_HOST "128.59.148.182"
 // #define SERVER_HOST "160.39.249.225"
-#define SERVER_HOST "160.39.248.109"
-#define SERVER_PORT 42000
+// #define SERVER_HOST "160.39.248.109"
+// #define SERVER_PORT 42000
 
 #define BUFFER_SIZE 128
 
@@ -33,19 +33,19 @@
  * 
  */
 
-int sockfd; /* Socket file descriptor */
+// int sockfd; /* Socket file descriptor */
 
 struct libusb_device_handle *mouse;
 uint8_t endpoint_address;
 
-pthread_t network_thread;
-void *network_thread_f(void *);
+// pthread_t network_thread;
+// void *network_thread_f(void *);
 
 int main()
 {
   int err, col;
   int flg1;
-  struct sockaddr_in serv_addr;
+  // struct sockaddr_in serv_addr;
 
   struct usb_mouse_packet packet;
   int transferred;
@@ -71,10 +71,10 @@ int main()
   }
     
   /* Create a TCP communications socket */
-  if ( (sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0 ) {
-    fprintf(stderr, "Error: Could not create socket\n");
-    exit(1);
-  }
+  // if ( (sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0 ) {
+  //   fprintf(stderr, "Error: Could not create socket\n");
+  //   exit(1);
+  // }
 
   // /* Get the server address */
   // memset(&serv_addr, 0, sizeof(serv_addr));
@@ -92,15 +92,36 @@ int main()
   // }
 
   /* Start the network thread */
-  pthread_create(&network_thread, NULL, network_thread_f, NULL);
+  // pthread_create(&network_thread, NULL, network_thread_f, NULL);
 
   /* Look for and handle keypresses */
   for (;;) {
+    libusb_interrupt_transfer(keyboard, endpoint_address,
+            (unsigned char *) &packet, sizeof(packet),
+            &transferred, 0);
+    if (transferred == sizeof(packet)) {
+      sprintf(keystate, "%02x %02x %02x", packet.modifiers, packet.keycode[0],
+        packet.keycode[1]);
+      printf("%s\n", keystate);
+      fbputs(keystate, 6, 0);
+      if (packet.keycode[0] == 0x29) { /* ESC pressed? */
+  break;
+      }
+    }
+  }
+
+  /* Look for and handle keypresses */
+  for (;;) 
+  {
     flg1 = libusb_interrupt_transfer(mouse, endpoint_address,
 			      (unsigned char *) &packet, sizeof(packet),
 			      &transferred, 0);
-    sprintf("libusb_interrupt_transfer is: ","%d\n", flg1);
-    sprintf("transferred is: ","%d", transferred,"sizeof packet is: ","%d\n",sizeof(packet));
+    if (flg1 == 0) {
+      sprintf("libusb_interrupt_transfer is: ","%d\n", flg1);
+      sprintf("transferred is: ", "%d\n", transferred);
+      sprintf("sizeof packet is: ", "%d\n",sizeof(packet));
+    }
+
 
     if (transferred == sizeof(packet)) {
       sprintf(keystate, "%02x %02x %02x", packet.modifiers, packet.pos_x,
@@ -108,31 +129,31 @@ int main()
       printf("%s\n", keystate);
       fbputs(keystate, 6, 0);
       if (packet.pos_y == 0x29) { /* ESC pressed? */
-	break;
+	       break;
       }
     }
   }
 
   /* Terminate the network thread */
-  pthread_cancel(network_thread);
+  // pthread_cancel(network_thread);
 
   /* Wait for the network thread to finish */
-  pthread_join(network_thread, NULL);
+  // pthread_join(network_thread, NULL);
 
   return 0;
 }
 
-void *network_thread_f(void *ignored)
-{
-  char recvBuf[BUFFER_SIZE];
-  int n;
-  /* Receive data */
-  while ( (n = read(sockfd, &recvBuf, BUFFER_SIZE - 1)) > 0 ) {
-    recvBuf[n] = '\0';
-    printf("%s", recvBuf);
-    fbputs(recvBuf, 8, 0);
-  }
+// void *network_thread_f(void *ignored)
+// {
+//   char recvBuf[BUFFER_SIZE];
+//   int n;
+//   /* Receive data */
+//   while ( (n = read(sockfd, &recvBuf, BUFFER_SIZE - 1)) > 0 ) {
+//     recvBuf[n] = '\0';
+//     printf("%s", recvBuf);
+//     fbputs(recvBuf, 8, 0);
+//   }
 
-  return NULL;
-}
+//   return NULL;
+//}
 
