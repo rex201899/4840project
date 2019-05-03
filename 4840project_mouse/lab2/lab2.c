@@ -27,11 +27,6 @@ int main()
   int transferred;
   char keystate[12];
 
-  if ((err = fbopen()) != 0) {
-    fprintf(stderr, "Error: Could not open framebuffer: %d\n", err);
-    exit(1);
-  }
-
   /* Open the mouse */
   if ( (mouse = openmouse(&endpoint_address)) == NULL ) {
     fprintf(stderr, "Did not find a mouse\n");
