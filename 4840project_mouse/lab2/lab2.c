@@ -100,12 +100,13 @@ int main()
     flg1 = libusb_interrupt_transfer(mouse, endpoint_address,
 			      (unsigned char *) &packet, sizeof(packet),
 			      &transferred, 0);
-    if (flg1 == 0) {
-      sprintf("libusb_interrupt_transfer is: ","%d\n", flg1);
-      sprintf("transferred is: ", "%d\n", transferred);
-      sprintf("sizeof packet is: ", "%d\n",sizeof(packet));
-    }
-
+    // if (flg1 == 0) {
+    //   sprintf("libusb_interrupt_transfer is: ","%d\n", flg1);
+    //   sprintf("transferred is: ", "%d\n", transferred);
+    //   sprintf("sizeof packet is: ", "%d\n",sizeof(packet));
+    // }
+    printf("%d\n", flg1);
+    
 
     if (transferred == sizeof(packet)) {
       sprintf(keystate, "%02x %02x %02x", packet.modifiers, packet.pos_x,
