@@ -99,11 +99,11 @@ int main()
 			      (unsigned char *) &packet, sizeof(packet),
 			      &transferred, 0);
     if (transferred == sizeof(packet)) {
-      sprintf(keystate, "%02x %02x %02x", packet.modifiers, packet.keycode[0],
-	      packet.keycode[1]);
+      sprintf(keystate, "%02x %02x %02x", packet.modifiers, packet.pos_x,
+	      packet.pos_y);
       printf("%s\n", keystate);
       fbputs(keystate, 6, 0);
-      if (packet.keycode[0] == 0x29) { /* ESC pressed? */
+      if (packet.pos_y == 0x29) { /* ESC pressed? */
 	break;
       }
     }
